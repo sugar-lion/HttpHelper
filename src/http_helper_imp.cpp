@@ -12,29 +12,29 @@ static size_t CurlWriter(void *buffer, size_t size, size_t count, void * stream)
 };
 
 static int CurlDebug(CURL *pcurl, curl_infotype itype, char * pData, size_t size, void *)
-{  
-    if(itype == CURLINFO_TEXT)  
-    {  
-        printf("[TEXT]:%s",pData);  
-    }  
-    else if(itype == CURLINFO_HEADER_IN)  
-    {  
-        printf("[HEADER_IN]:%s",pData);  
-    }  
-    else if(itype == CURLINFO_HEADER_OUT)  
-    {  
-        printf("[HEADER_OUT]:%s",pData);  
-    }  
-    else if(itype == CURLINFO_DATA_IN)  
-    {  
-        printf("[DATA_IN]:%s",pData);  
-    }  
-    else if(itype == CURLINFO_DATA_OUT)  
-    {  
-        printf("[DATA_OUT]:%s",pData);  
-    }  
-    return 0;  
-}  
+{
+    if(itype == CURLINFO_TEXT)
+    {
+        printf("[TEXT]:%s",pData);
+    }
+    else if(itype == CURLINFO_HEADER_IN)
+    {
+        printf("[HEADER_IN]:%s",pData);
+    }
+    else if(itype == CURLINFO_HEADER_OUT)
+    {
+        printf("[HEADER_OUT]:%s",pData);
+    }
+    else if(itype == CURLINFO_DATA_IN)
+    {
+        printf("[DATA_IN]:%s",pData);
+    }
+    else if(itype == CURLINFO_DATA_OUT)
+    {
+        printf("[DATA_OUT]:%s",pData);
+    }
+    return 0;
+}
 
 
 void HttpRequestImp::SetUrl(const std::string& url)
@@ -92,7 +92,7 @@ CurlHandle::CurlHandle(const HttpRequestInterface& request)
     curl_easy_setopt(handle_, CURLOPT_NOSIGNAL, 1);
     curl_easy_setopt(handle_, CURLOPT_FORBID_REUSE, 1);
     curl_easy_setopt(handle_, CURLOPT_TIMEOUT_MS, 10000);
-    curl_easy_setopt(handle_, CURLOPT_POST, 1); //设置问非0表示本次操作为post  
+    curl_easy_setopt(handle_, CURLOPT_POST, 1); //设置问非0表示本次操作为post
     curl_easy_setopt(handle_, CURLOPT_POSTFIELDS, request.GetPostData());
     curl_easy_setopt(handle_, CURLOPT_POSTFIELDSIZE, request.GetPostDataLen());
     curl_easy_setopt(handle_, CURLOPT_VERBOSE, 1); //打印调试信息
@@ -146,22 +146,22 @@ void HttpHelperImp::EasyPerform(const HttpRequestInterface& request)
     CURL*curl_handle = curl_easy_init();
     ByteBuffer response_data;
     curl_easy_setopt(curl_handle, CURLOPT_URL, request.GetUrl().c_str());
-    curl_easy_setopt(curl_handle, CURLOPT_VERBOSE, 1); 
+    curl_easy_setopt(curl_handle, CURLOPT_VERBOSE, 1);
     curl_easy_setopt(curl_handle, CURLOPT_DEBUGFUNCTION, CurlDebug);
     curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, CurlWriter);
     curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, &response_data);
     curl_easy_setopt(curl_handle, CURLOPT_NOSIGNAL, 1);
     curl_easy_setopt(curl_handle, CURLOPT_FORBID_REUSE, 1);
     curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT_MS, request.GetTimeoutMs());
-      
-    curl_easy_setopt(curl_handle, CURLOPT_POST, 1); 
+
+    curl_easy_setopt(curl_handle, CURLOPT_POST, 1);
     curl_slist *curl_headers_list;
     std::map<std::string,std::string>::const_iterator itr = request.GetHeaders().begin();
     while(itr != request.GetHeaders().end())
     {
         curl_headers_list = curl_slist_append(curl_headers_list, std::string(itr->first + ":" + itr->second).c_str());
     }
-    curl_easy_setopt(curl_handle, CURLOPT_HTTPHEADER, curl_headers_list);  
+    curl_easy_setopt(curl_handle, CURLOPT_HTTPHEADER, curl_headers_list);
     curl_easy_setopt(curl_handle, CURLOPT_POSTFIELDS, request.GetPostData());
     curl_easy_setopt(curl_handle, CURLOPT_POSTFIELDSIZE, request.GetPostDataLen());
     CURLcode curlCode = curl_easy_perform(curl_handle);
@@ -309,7 +309,6 @@ void HttpHelperImp::readInfoFromMulti(CURLM * curl_m)
 void HttpHelperImp::runFunc()
 {
     CURLM * curl_m = curl_multi_init();
-    addEasyToMulti(curl_m);
     while (!(cancel_))
     {
         addEasyToMulti(curl_m);
