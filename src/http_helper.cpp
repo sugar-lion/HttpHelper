@@ -1,6 +1,12 @@
 #include "http_helper.h"
 #include "http_helper_imp.inc"
 
+HttpRequestInterface* HttpRequestFactory::CreateHttpRequest()
+{
+    return new HttpRequestImp();
+}
+
+
 HttpHelper::HttpHelper()
 {
     instance_ = new HttpHelperImp();
@@ -8,41 +14,28 @@ HttpHelper::HttpHelper()
 
 HttpHelper::~HttpHelper()
 {
-    if(NULL != instance_)
+    if (NULL != instance_)
     {
         delete instance_;
         instance_ = NULL;
     }
 }
 
-void HttpHelper::SetUrl(const std::string& url)
-{
-    instance_->SetUrl(url);
-}
 
 void HttpHelper::SetCallBackInterface(HttpCallBackInterface &callback)
 {
     instance_->SetCallBackInterface(callback);
 }
 
-void HttpHelper::AddHeader(const std::string& key,const std::string& value)
+void HttpHelper::EasyPerform(const HttpRequestInterface& request)
 {
-    instance_->AddHeader(key, value);
+    instance_->EasyPerform(request);
 }
 
-void HttpHelper::AddHeaders(const std::map<std::string,std::string>& headers)
+void HttpHelper::MultiPerform(const HttpRequestInterface& request)
 {
-    instance_->AddHeaders(headers);
+    instance_->MultiPerform(request);
 }
 
-void HttpHelper::SetTimeOutMS(int timeoutMs)
-{
-    instance_->SetTimeOutMS(timeoutMs);
-}
-
-void HttpHelper::Post(const unsigned char* postData,unsigned int postLen)
-{
-    instance_->Post(postData, postLen);
-}
 
 

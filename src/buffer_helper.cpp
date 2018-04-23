@@ -43,12 +43,12 @@ void ByteBuffer::AppendBuffer(const unsigned char* buffer,unsigned int size)
     memcpy(buffer_ + buffer_len_,buffer,size);
 }
 
-unsigned char* ByteBuffer::buffer()
+const unsigned char* ByteBuffer::buffer()const
 {
     return buffer_;
 }
 
-unsigned int ByteBuffer::buffer_len() 
+unsigned int ByteBuffer::buffer_len() const
 {
     return buffer_len_;
 }

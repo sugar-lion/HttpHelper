@@ -26,11 +26,12 @@ EXTRA_CFLAGS = -fPIC
 # inc-y:          Header include paths.
 inc-y   =../include/\
 	../src/inc/\
-	../depends/curl/include/
+	../depends/curl/include/\
+	../depends/bgcc/include/
 # src-y:          Sources. The items ending with a trailing / are regarded as directories, the others
 #                 are regareded as files. The files with specified suffixes in those directories will
 #                 be automatically involved in compilation.
-src-y   =../src/\
+src-y   =../src/
 
 # obj-y:          Extra object file list.
 # ucmd_X:         User defined command to generate targets for the prerequisites
@@ -38,9 +39,10 @@ src-y   =../src/\
 #
 # EXCLUDE_FILES:  The files that are not included during compilation.
 # OBJECT_DIR:     The directory where object files are output.
+OBJECT_DIR =obj
 # LD_SCRIPT:      The explicit linker script for linking.
 # LIBS:           The libraries for linking.
-LIBS = ../depends/curl/lib/libcurl.so -lpthread
+LIBS = ../depends/curl/lib/libcurl.so ../depends/bgcc/lib/libbgcc.a -lpthread
 # LDFLAGS:        All other linker flags.
 # ====================================================================================================
 # STRIP_UNUSED:   Remove all unreferenced functions and data during linking.
@@ -48,9 +50,9 @@ LIBS = ../depends/curl/lib/libcurl.so -lpthread
 # OBJECT_SUFFIX:  The suffix of object files.
 # DEPEND_SUFFIX:  The suffix of dependency files.
 # TARGET_TYPE:    The target type which can be application, shared object, archive library etc.
-TARGET_TYPE=SO
-# TARGET:         The path name of the final target.TARGET=../bin/concurrence_http.so
-TARGET=../bin/libhttp_helper.so
+TARGET_TYPE=AR
+# TARGET:         The path name of the final target.
+TARGET=../lib/libhttp_helper.a
 # CENTRALIZED_SINGLE_DEPEND_FILE:  Use one single dependency file instead of 
 #                                  generating one dependency file for each source file.
 # TARGET_DEPENDS: The dependent targets by the final target.

@@ -9,8 +9,8 @@ public:
     ~ByteBuffer();
     void AppendBuffer(const unsigned char* buffer,unsigned int size);
     void Reset();
-    unsigned char* buffer();
-    unsigned int buffer_len();
+    const unsigned char* buffer() const;
+    unsigned int buffer_len() const;
     void set_max_buffer_len(unsigned int max_len) ;
 private:
     unsigned char *buffer_;
